@@ -271,6 +271,9 @@ class ChartDataRestApi(ChartRestApi):
             # CSV export submits regular form data
             with contextlib.suppress(TypeError, json.JSONDecodeError):
                 json_body = json.loads(request.form["form_data"])
+                # disable forcing query in CSV export
+                json_body["force"] = False
+                json_body["form_data"]["force"] = False
         if json_body is None:
             return self.response_400(message=_("Request is not JSON"))
 
@@ -298,8 +301,9 @@ class ChartDataRestApi(ChartRestApi):
             return self._run_async(json_body, command)
 
         form_data = json_body.get("form_data")
+        force_cached = True
         return self._get_data_response(
-            command, form_data=form_data, datasource=query_context.datasource
+            command, force_cached, form_data, query_context.datasource
         )
 
     @expose("/data/<cache_key>", methods=("GET",))
