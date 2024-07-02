@@ -99,7 +99,7 @@ SMTP_USER = "CloudAdmin"
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
 
 # custom config
-GLOBAL_ASYNC_QUERIES_JWT_SECRET = "fhKfBi8hwNXBZmBsHtrCooxX3xT26SwnfhKfBi8hwNXBZmBsHtrCooxX3xT26Swn"
+GLOBAL_ASYNC_QUERIES_JWT_SECRET = os.getenv("GLOBAL_ASYNC_QUERIES_JWT_SECRET", "secret")
 GLOBAL_ASYNC_QUERIES_POLLING_DELAY = 1500
 GLOBAL_ASYNC_QUERIES_REDIS_CONFIG = {
     "port": REDIS_PORT,
@@ -112,11 +112,30 @@ GLOBAL_ASYNC_QUERIES_REDIS_STREAM_PREFIX = "async-events-"
 GLOBAL_ASYNC_QUERIES_JWT_COOKIE_NAME = "async-token"
 GLOBAL_ASYNC_QUERIES_JWT_COOKIE_SECURE = False
 
-TALISMAN_ENABLED = False
+# security
+ENABLE_CORS = True
+CORS_OPTIONS = {
+    "supports_credentials": True,
+    "allow_headers": ["*"],
+    "resources": ["*"],
+    "origins": ["https://(?:.+\.)?cloudadmin.io", "http://localhost:8001"]
+}
+TALISMAN_ENABLED = True
+TALISMAN_CONFIG = {
+    "content_security_policy": {
+        "frame-ancestors": ["https://cloudadmin.io", "https://*.cloudadmin.io", "http://localhost:8001"]
+    },
+    "force_https": False,
+    "force_https_permanent": False,
+    "frame_options": "ALLOWFROM",
+    "frame_options_allow_from": "*"
+}
+WTF_CSRF_ENABLED = False
 WTF_CSRF_EXEMPT_LIST = [
     "superset.views.core.log",
     "superset.views.core.explore_json",
     "superset.charts.data.api.data",
+    "superset.charts.data.api.refresh_cache",
     "superset.security.api.guest_token"
 ]
 ENABLE_PROXY_FIX = True
@@ -134,6 +153,7 @@ APP_ICON = "https://development.cloudadmin.io/static/logos/cloudadmin-logo-color
 SUPERSET_LOAD_EXAMPLES = False
 
 from security import CustomSecurityManager
+
 CUSTOM_SECURITY_MANAGER = CustomSecurityManager
 
 #
