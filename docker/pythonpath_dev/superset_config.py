@@ -113,18 +113,17 @@ GLOBAL_ASYNC_QUERIES_JWT_COOKIE_NAME = "async-token"
 GLOBAL_ASYNC_QUERIES_JWT_COOKIE_SECURE = False
 
 # security
-ALLOW_ORIGINS = ["https://(?:.+\.)?cloudadmin.io", "https://cloudadmin.io", "http://localhost:8001"]
 ENABLE_CORS = True
 CORS_OPTIONS = {
     "supports_credentials": True,
     "allow_headers": ["*"],
     "resources": ["*"],
-    "origins": ALLOW_ORIGINS
+    "origins": ["https://(?:.+\.)?cloudadmin.io", "http://localhost:8001"]
 }
-TALISMAN_ENABLED = True
+TALISMAN_ENABLED = False  # Enabled occurs selenium timeouts in scheduled reports with ignored cache
 TALISMAN_CONFIG = {
     "content_security_policy": {
-        "frame-ancestors": ALLOW_ORIGINS
+        "frame-ancestors": ["https://cloudadmin.io", "https://*.cloudadmin.io", "http://localhost:8001"]
     },
     "force_https": False,
     "force_https_permanent": False,
