@@ -1,4 +1,5 @@
 import requests
+import os
 from superset.security import SupersetSecurityManager
 from flask_appbuilder.security.views import AuthRemoteUserView, AuthDBView
 from flask_appbuilder.security.views import expose
@@ -8,6 +9,7 @@ from flask_appbuilder.security.forms import LoginForm_db
 from flask_appbuilder.utils.base import get_safe_redirect
 from flask_appbuilder._compat import as_unicode
 from flask_login import login_user
+
 
 class CustomAuthDBView(AuthDBView):
 
@@ -40,11 +42,12 @@ class CustomAuthDBView(AuthDBView):
             return None
 
         payload = {
-            'client_id': 'tsFjmfceDEciYhFH[bRpoKjq4',
+            'client_id': os.getenv('CLOUD_ADMIN_OAUTH2_CLIENT_ID', ''),
             'email': user.email,
             'password': form.password.data,
         }
-        url = 'https://development-api.cloudadmin.io/v2/login'
+        api_url = os.getenv('CLOUD_ADMIN_API_URL', 'https://development-api.cloudadmin.io')
+        url = f"{api_url}/v2/login"
         response = requests.post(url, json=payload)
         if response.status_code == 200:
             return user

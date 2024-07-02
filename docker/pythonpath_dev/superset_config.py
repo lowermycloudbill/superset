@@ -99,7 +99,7 @@ SMTP_USER = "CloudAdmin"
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
 
 # custom config
-GLOBAL_ASYNC_QUERIES_JWT_SECRET = "fhKfBi8hwNXBZmBsHtrCooxX3xT26SwnfhKfBi8hwNXBZmBsHtrCooxX3xT26Swn"
+GLOBAL_ASYNC_QUERIES_JWT_SECRET = os.getenv("GLOBAL_ASYNC_QUERIES_JWT_SECRET", "secret")
 GLOBAL_ASYNC_QUERIES_POLLING_DELAY = 1500
 GLOBAL_ASYNC_QUERIES_REDIS_CONFIG = {
     "port": REDIS_PORT,
@@ -113,7 +113,7 @@ GLOBAL_ASYNC_QUERIES_JWT_COOKIE_NAME = "async-token"
 GLOBAL_ASYNC_QUERIES_JWT_COOKIE_SECURE = False
 
 # security
-ALLOW_ORIGINS = ["https://*.cloudadmin.io", "https://cloudadmin.io", "http://localhost:8001"]
+ALLOW_ORIGINS = ["https://(?:.+\.)?cloudadmin.io", "http://localhost:8001"]
 ENABLE_CORS = True
 CORS_OPTIONS = {
     "supports_credentials": True,
@@ -154,6 +154,7 @@ APP_ICON = "https://development.cloudadmin.io/static/logos/cloudadmin-logo-color
 SUPERSET_LOAD_EXAMPLES = False
 
 from security import CustomSecurityManager
+
 CUSTOM_SECURITY_MANAGER = CustomSecurityManager
 
 #
