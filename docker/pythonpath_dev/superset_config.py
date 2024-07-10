@@ -83,6 +83,7 @@ class CeleryConfig:
 CELERY_CONFIG = CeleryConfig
 
 SQLLAB_CTAS_NO_LIMIT = True
+AUTH_RATE_LIMIT = "50 per second"
 
 # reports
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
