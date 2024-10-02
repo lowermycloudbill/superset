@@ -62,9 +62,9 @@ COPY --chown=superset:superset superset-frontend/package.json superset-frontend/
 COPY --chown=superset:superset requirements/base.txt requirements/
 COPY --chown=superset:superset requirements/cloudadmin.txt requirements/
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --upgrade setuptools pip && \
-    pip install -r requirements/base.txt \
-    pip install -r requirements/cloudadmin.txt
+    pip install --upgrade setuptools pip \
+    && pip install -r requirements/base.txt \
+    && pip install -r requirements/cloudadmin.txt
 
 COPY --chown=superset:superset --from=superset-node /app/superset/static/assets superset/static/assets
 # Install superset itself
